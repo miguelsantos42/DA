@@ -5,3 +5,7 @@
 9	128	1715026229418885572	CMakeFiles/Projeto_da_2.dir/data_structures/Heap.cpp.o	9c0f77adb4f15eba
 11	98	1715027921555134734	CMakeFiles/Projeto_da_2.dir/data_structures/UFDS.cpp.o	49acc692b8cd42b9
 10	128	1715027921587135287	CMakeFiles/Projeto_da_2.dir/data_structures/Heap.cpp.o	addeb008f2f73370
+0	217	1715027995884413812	CMakeFiles/Projeto_da_2.dir/src/main.cpp.o	971fdc736249da6
+1	227	1715027995896414018	CMakeFiles/Projeto_da_2.dir/src/Menu.cpp.o	e90f2bdb00f72a51
+1	304	1715027995972415320	CMakeFiles/Projeto_da_2.dir/src/Data.cpp.o	ddb8ca3c8ba79d5a
+304	345	1715027996016416073	Projeto_da_2	e7e9f90eaa86efdd

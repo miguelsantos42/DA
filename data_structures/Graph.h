@@ -386,14 +386,7 @@ bool Graph<T>::addVertex(const T &in) {
     vertexSet.push_back(new Vertex<T>(in));
     return true;
 }
-template <class T>
-bool Graph<T>::addVertex(const int &id, double longitude, double latitude) {
-    if(findVertex(id) != nullptr)
-        return false;
-    auto *v1 = new Vertex(id, longitude, latitude);
-    vertexmap.insert(make_pair(id, v1));
-    return true;
-}
+
 /*
  *  Removes a vertex with a given content (in) from a graph (this), and
  *  all outgoing and incoming edges.
