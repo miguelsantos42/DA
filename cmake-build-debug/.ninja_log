@@ -1,0 +1,7 @@
+# ninja log v5
+1	201	1715026810788383345	CMakeFiles/Projeto_da_2.dir/src/Menu.cpp.o	7f846abde98ce21
+0	201	1715026810784383237	CMakeFiles/Projeto_da_2.dir/src/main.cpp.o	eb38645c13f1f9b4
+9	94	1715026229382885066	CMakeFiles/Projeto_da_2.dir/data_structures/UFDS.cpp.o	e7f6b0ed4d29a04c
+9	128	1715026229418885572	CMakeFiles/Projeto_da_2.dir/data_structures/Heap.cpp.o	9c0f77adb4f15eba
+11	98	1715027921555134734	CMakeFiles/Projeto_da_2.dir/data_structures/UFDS.cpp.o	49acc692b8cd42b9
+10	128	1715027921587135287	CMakeFiles/Projeto_da_2.dir/data_structures/Heap.cpp.o	addeb008f2f73370

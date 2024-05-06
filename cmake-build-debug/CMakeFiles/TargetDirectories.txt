@@ -1,0 +1,3 @@
+/home/aqueiros_22/Secretária/projeto da 2/cmake-build-debug/CMakeFiles/Projeto_da_2.dir
+/home/aqueiros_22/Secretária/projeto da 2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/aqueiros_22/Secretária/projeto da 2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
