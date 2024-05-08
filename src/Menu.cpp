@@ -44,6 +44,7 @@ void Menu::readToyGraph() {
     cin >> option;
 
     data.readToyGraphs(option);
+    actionMenu();
 }
 
 void Menu::readExtraFullyConnectedGraph() {
@@ -65,6 +66,7 @@ void Menu::readExtraFullyConnectedGraph() {
     cin >> option;
 
     data.readExtra(option);
+    actionMenu();
 }
 
 void Menu::readRealWorldGraph() {
@@ -77,4 +79,32 @@ void Menu::readRealWorldGraph() {
     cin >> option;
 
     data.readReal(option);
+    actionMenu();
+}
+
+void Menu::actionMenu() {
+    int option;
+    do {
+        cout << "Choose an action:" << endl;
+        cout << "1. Action 1" << endl;
+        cout << "2. Action 2" << endl;
+        cout << "0. Exit" << endl;
+        cin >> option;
+
+        switch (option) {
+            case 1:
+                // Add code for Action 1
+                break;
+            case 2:
+                // Add code for Action 2
+                break;
+            case 0:
+                cout << "Exiting..." << endl;
+
+                break;
+            default:
+                cout << "Invalid option" << endl;
+                break;
+        }
+    } while (option != 0);
 }
