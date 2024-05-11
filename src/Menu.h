@@ -16,7 +16,6 @@ public:
     void readToyGraph();
     void readExtraFullyConnectedGraph();
     void readRealWorldGraph();
-    void actionMenu();
 };
 
 
