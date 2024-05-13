@@ -13,6 +13,7 @@ using namespace std;
 class Solver {
 public:
     double bestCost;
+    vector<Vertex<string>*> bestPath;
     Solver();
     double tspBacktracking(Graph <string>* graph );
     void backtrackingDfs(Graph<string>* graph, Vertex<string>* current, double cost, vector<Vertex<string>*> &path);

@@ -23,8 +23,10 @@ public:
     Data();
 
     Graph<string>* getGraph();
+    void clearGraph();
     void readToyGraphs(int x);
     void readExtra(int x);
+
 
     void readReal(int x);
 

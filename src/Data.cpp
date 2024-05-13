@@ -11,6 +11,10 @@ Data::Data() {
 Graph<string>* Data::getGraph() {
     return graph;
 }
+void Data::clearGraph() {
+    delete graph;
+    graph = new Graph<string>();
+}
 
 void Data::readToyGraphs(int x) {
     string filename;

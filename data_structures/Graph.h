@@ -23,8 +23,13 @@ template <class T>
 class Vertex {
 public:
     Vertex(T in);
-    bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 
+    Vertex(T in, double latitude, double longitude);
+
+    bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
+    double latitude, longitude;
+    double getLatitude() const;
+    double getLongitude() const;
     T getInfo() const;
     std::vector<Edge<T> *> getAdj() const;
     bool isVisited() const;
@@ -40,9 +45,12 @@ public:
     void setIndegree(unsigned int indegree);
     void setDist(double dist);
     void setPath(Edge<T> *path);
+
     Edge<T> * addEdge(Vertex<T> *dest, double w);
     bool removeEdge(T in);
     void removeOutgoingEdges();
+
+
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
@@ -63,6 +71,18 @@ protected:
     void deleteEdge(Edge<T> *edge);
 };
 
+template<class T>
+double Vertex<T>::getLatitude() const {
+    return latitude;
+}
+
+template<class T>
+double Vertex<T>::getLongitude() const {
+    return longitude;
+}
+
+template <class T>
+Vertex<T>::Vertex(T in, double lat, double log): info(in), latitude(lat), longitude(log) {}
 /********************** Edge  ****************************/
 
 template <class T>
@@ -109,6 +129,7 @@ public:
      *  Returns true if successful, and false if a vertex with that content already exists.
      */
     bool addVertex(const T &in);
+    bool addVertex(const T &in, double lat, double log);
     bool addVertex(const int &id, double longitude, double latitude);
     bool removeVertex(const T &in);
 
@@ -143,6 +164,15 @@ protected:
      */
     int findVertexIdx(const T &in) const;
 };
+
+template<class T>
+bool Graph<T>::addVertex(const T &in, double lat, double log) {
+    if (findVertex(in) != nullptr)
+        return false;
+    vertexSet.push_back(new Vertex<T>(in, lat, log));
+    return true;
+
+}
 
 void deleteMatrix(int **m, int n);
 void deleteMatrix(double **m, int n);

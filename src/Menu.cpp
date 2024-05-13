@@ -7,9 +7,11 @@
 
 using namespace std;
 
+
 Menu::Menu() {}
 
 void Menu::start() {
+    data.clearGraph();
     int option;
     cout << "Choose the type of graph to read:" << endl;
     cout << "1. Toy Graphs" << endl;
@@ -44,11 +46,8 @@ void Menu::readToyGraph() {
     cin >> option;
 
     data.readToyGraphs(option);
-    Solver().tspBacktracking(data.getGraph());
-
-
+    actionMenu();
 }
-
 
 void Menu::readExtraFullyConnectedGraph() {
     int option;
@@ -69,6 +68,7 @@ void Menu::readExtraFullyConnectedGraph() {
     cin >> option;
 
     data.readExtra(option);
+    actionMenu();
 }
 
 void Menu::readRealWorldGraph() {
@@ -81,4 +81,38 @@ void Menu::readRealWorldGraph() {
     cin >> option;
 
     data.readReal(option);
+    actionMenu();
 }
+
+void Menu::actionMenu() {
+    int option;
+    do {
+        cout << "Choose an action:" << endl;
+        cout << "1. Change Graph" << endl;
+        cout << "2. Backtracking" << endl;
+        cout << "3. Action 2" << endl;
+        cout << "0. Exit" << endl;
+        cin >> option;
+
+        switch (option) {
+            case 1:
+                this->start();
+                break;
+            case 2:
+                clock_t start, end;
+                start = clock();
+                Solver().tspBacktracking(data.getGraph());
+                end = clock();
+                cout << "Time: " << (double)(end - start) / CLOCKS_PER_SEC << "s" << endl;
+                break;
+            case 0:
+                cout << "Exiting..." << endl;
+
+                break;
+            default:
+                cout << "Invalid option" << endl;
+                break;
+        }
+    } while (option != 0);
+}
+

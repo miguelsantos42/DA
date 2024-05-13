@@ -2,6 +2,7 @@
 // Created by miguel on 08-05-2024.
 //
 
+#include <cstdint>
 #include "Solver.h"
 
 using namespace std;
@@ -11,19 +12,13 @@ Solver::Solver() {
 }
 
 void Solver::backtrackingDfs(Graph<string>* graph, Vertex<string>* current, double cost, vector<Vertex<string>*> &path) {
-    // cancel if first node is reached before the end
     if(cost >= bestCost  || (path.size() != graph->getNumVertex() && current->isVisited() && current->getInfo() == "0")){
         return;
     }
     if(path.size() == graph->getNumVertex()){
         if(cost < bestCost && current->getInfo() == "0"){
             bestCost = cost;
-            cout << "Found best of " << bestCost << "\n";
-            cout << "Path:";
-            for (auto i : path){
-                cout << i->getInfo() << " ";
-            }
-            cout << "\n";
+            bestPath = path;
         }
         return;
     }
@@ -43,5 +38,11 @@ void Solver::backtrackingDfs(Graph<string>* graph, Vertex<string>* current, doub
 double Solver::tspBacktracking(Graph<string>* graph) {
     vector<Vertex<string>*> path;
     backtrackingDfs(graph, graph->findVertex("0"), 0, path);
+    cout << "Best cost: " << bestCost << "\n";
+    cout << "Best path: 0 ";
+    for (auto i : bestPath){
+        cout << i->getInfo() << " ";
+    }
+    cout << "\n";
     return bestCost;
 }
