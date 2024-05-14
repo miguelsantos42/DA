@@ -10,7 +10,9 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
+#include <unordered_map>
 #include "../data_structures/MutablePriorityQueue.h"
+using  namespace std;
 
 template <class T>
 class Edge;
@@ -19,6 +21,9 @@ class Edge;
 
 /************************* Vertex  **************************/
 
+
+
+// Rest of your code...
 template <class T>
 class Vertex {
 public:
@@ -129,10 +134,11 @@ public:
      *  Returns true if successful, and false if a vertex with that content already exists.
      */
     bool addVertex(const T &in);
-    bool addVertex(const T &in, double lat, double log);
-    bool addVertex(const int &id, double longitude, double latitude);
-    bool removeVertex(const T &in);
+    bool addVertex(const T &in, double latitude, double longitude);
 
+    bool removeVertex(const T &in);
+    bool edgeExists(const T &source, const T &dest);
+    vector<Edge<T> *> prim();
     /*
      * Adds an edge to a graph (this), given the contents of the source and
      * destination vertices and the edge weight (w).
@@ -153,6 +159,9 @@ public:
     bool isDAG() const;
     bool dfsIsDAG(Vertex<T> *v) const;
     std::vector<T> topsort() const;
+
+
+
 protected:
     std::vector<Vertex<T> *> vertexSet;    // vertex set
 
@@ -163,6 +172,7 @@ protected:
      * Finds the index of the vertex with a given content.
      */
     int findVertexIdx(const T &in) const;
+
 };
 
 template<class T>
@@ -394,6 +404,19 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
             return v;
     return nullptr;
 }
+template <class T>
+bool Graph<T>::edgeExists(const T &source, const T &dest) {
+    Vertex<T> *srcVertex = findVertex(source);
+    if (srcVertex == nullptr) {
+        return false;
+    }
+    for (auto &edge : srcVertex->getAdj()) {
+        if (edge->getDest()->getInfo() == dest) {
+            return true;
+        }
+    }
+    return false;
+}
 
 /*
  * Finds the index of the vertex with a given content.
@@ -437,6 +460,40 @@ bool Graph<T>::removeVertex(const T &in) {
         }
     }
     return false;
+}
+template <class T>
+vector<Edge<T>*> Graph<T>::prim() {
+    auto compare = [](Edge<T>* a, Edge<T>* b) { return a->getWeight() > b->getWeight(); };
+    priority_queue<Edge<T>*, vector<Edge<T>*>, decltype(compare)> q(compare);
+
+    vector<Edge<T>*> mst;
+    unordered_map<string, bool> visited;
+    Vertex<T>* v1 = vertexSet[0];
+    for(auto &e: v1->getAdj()){
+        q.push(e);
+    }
+    visited[v1->getInfo()] = true;
+    while (!q.empty()) {
+        Edge<T>* e = q.top();
+        q.pop();
+        Vertex<T>* v = e->getDest();
+        Vertex<T>* u = e->getOrig();
+        if (visited[v->getInfo()]) {
+            continue;
+        }
+        visited[v->getInfo()] = true;
+        mst.push_back(e);
+        for(auto &parent: vertexSet) {
+            if (parent->getInfo() == v->getInfo()) {
+                for(auto edge: parent->getAdj()){
+                    if(!visited[edge->getDest()->getInfo()]){
+                        q.push(edge);
+                    }
+                }
+            }
+        }
+    }
+    return mst;
 }
 
 /*

@@ -4,6 +4,10 @@
 
 #include <cstdint>
 #include "Solver.h"
+#include <cmath>
+#include <unordered_map>
+
+#define R 6371.0
 
 using namespace std;
 
@@ -45,4 +49,85 @@ double Solver::tspBacktracking(Graph<string>* graph) {
     }
     cout << "\n";
     return bestCost;
+}
+
+
+
+double haversine(double lat1, double lon1, double lat2, double lon2) {
+
+    lat1 = lat1 * M_PI / 180;
+    lon1 = lon1 * M_PI / 180;
+    lat2 = lat2 * M_PI / 180;
+    lon2 = lon2 * M_PI / 180;
+    double dlat = lat2 - lat1;
+    double dlon = lon2 - lon1;
+
+    double a = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    // Calculate the distance.
+    double distance = R * c;
+
+    return distance;
+}
+double Solver::getDistance(Graph<string>* graph, const vector<string> &path) {
+    double result = 0.0;
+    for (int i = 0; i < path.size() - 1 ;i++) {
+        string v1 = path[i];
+        string v2 = path[i+1];
+        if(!graph->edgeExists(v1, v2)){
+            result += haversine(graph->findVertex(v1)->getLatitude(), graph->findVertex(v1)->getLongitude(),graph->findVertex(v2)->getLatitude(),graph->findVertex(v2)->getLongitude());
+            continue;
+        }
+        else {
+            Vertex<string> *v = graph->findVertex(v1);
+            for(auto edge: v->getAdj()){
+                if(edge->getDest()->getInfo() == v2){
+                    result += edge->getWeight();
+                    break;
+                }
+            }
+        }
+    }
+    string final = path.back();
+    if(!graph->edgeExists(final,path[0])){
+        result += haversine(graph->findVertex(final)->getLatitude(), graph->findVertex(final)->getLongitude(),graph->findVertex(path[0])->getLatitude(),graph->findVertex(path[0])->getLongitude());
+    }
+    else{
+        Vertex<string> *v = graph->findVertex(final);
+        if (v != nullptr){
+            for(auto edge: v->getAdj()){
+                if(edge->getDest()->getInfo() == path[0]){
+                    result += edge->getWeight();
+                }
+            }
+        }
+    }
+    return result;
+}
+double Solver::triangularApproximation(Graph<string>* graph) {
+    double res=0.0;
+    vector<Edge<string>*> mst = graph->prim();
+
+    unordered_map<string, bool> visited;
+    vector<string> preorder;
+    dfs(mst, mst[0]->getOrig(), visited, preorder);
+    cout << "Path: ";
+    for(const auto& vertex : preorder) {
+        cout << vertex << " ";
+    }
+    cout << "0" << endl;
+    res= getDistance(graph, preorder);
+    cout<<"Distance: "<<res<<endl;
+    return res;
+}
+
+void Solver::dfs(vector<Edge<string>*>& mst, Vertex<string>* vertex, unordered_map<string, bool>& visited, vector<string>& preorder) {
+    visited[vertex->getInfo()] = true;
+    preorder.push_back(vertex->getInfo());
+    for(auto edge: mst){
+        if(edge->getOrig()->getInfo() == vertex->getInfo() && !visited[edge->getDest()->getInfo()]){
+            dfs(mst, edge->getDest(), visited, preorder);
+        }
+    }
 }

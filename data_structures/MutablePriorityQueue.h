@@ -29,6 +29,8 @@ public:
 	T * extractMin();
 	void decreaseKey(T * x);
 	bool empty();
+
+    bool find(const T &value) const;
 };
 
 // Index calculations

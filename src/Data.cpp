@@ -157,7 +157,7 @@ void Data::readReal(int x) {
             getline(ss, id, ',');
             getline(ss, longitude, ',');
             getline(ss, latitude, ',');
-            graph->addVertex(id);
+            graph->addVertex(id, stod(latitude), stod(longitude));
         }
         file_nodes.close();
     } else {
@@ -173,8 +173,6 @@ void Data::readReal(int x) {
             getline(ss, source, ',');
             getline(ss, dest, ',');
             getline(ss, weight, ',');
-            graph->addVertex(source);
-            graph->addVertex(dest);
             graph->addBidirectionalEdge(source, dest, stod(weight));
         }
         file_edges.close();
