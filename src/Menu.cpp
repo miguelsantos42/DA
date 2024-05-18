@@ -86,6 +86,9 @@ void Menu::readRealWorldGraph() {
 
 void Menu::actionMenu() {
     int option;
+    clock_t start, end; // Declare variables here
+    string startVertex;
+
     do {
         cout << "Choose an action:" << endl;
         cout << "1. Change Graph" << endl;
@@ -100,33 +103,27 @@ void Menu::actionMenu() {
                 this->start();
                 break;
             case 2:
-                clock_t start, end;
                 start = clock();
                 Solver().tspBacktracking(data.getGraph());
                 end = clock();
                 cout << "Time: " << (double)(end - start) / CLOCKS_PER_SEC << "s" << endl;
                 break;
             case 3:
-                clock_t start1, end1;
-                start1 = clock();
+                start = clock();
                 Solver().triangularApproximation(data.getGraph());
-                end1 = clock();
-                cout << "Time: " << (double)(end1 - start1) / CLOCKS_PER_SEC << "s" << endl;
+                end = clock();
+                cout << "Time: " << (double)(end - start) / CLOCKS_PER_SEC << "s" << endl;
                 break;
             case 4:
-                string startVertex;
                 cout << "Enter the start vertex for the real-world TSP: ";
                 cin >> startVertex;
-
-                clock_t start2, end2;
-                start2 = clock();
+                start = clock();
                 Solver().realWorldTSP(data.getGraph(), startVertex);
-                end2 = clock();
-                cout << "Time: " << (double)(end2 - start2) / CLOCKS_PER_SEC << "s" << endl;
+                end = clock();
+                cout << "Time: " << (double)(end - start) / CLOCKS_PER_SEC << "s" << endl;
                 break;
             case 0:
                 cout << "Exiting..." << endl;
-
                 break;
             default:
                 cout << "Invalid option" << endl;
