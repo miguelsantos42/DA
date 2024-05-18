@@ -24,6 +24,10 @@ public:
     void dfs(vector<Edge<string>*>& mst, Vertex<string>* vertex, unordered_map<string, bool>& visited, vector<string>& preorder);
 
     double triangularApproximation(Graph<string> *graph);
+
+    void realWorldTSP(Graph<string>* graph, string startVertex);
+    bool isGraphConnected(Graph<string>* graph);
+    void resolveTSP(Graph<string>* graph, Vertex<string>* current, double cost, vector<Vertex<string>*> &path);
 };
 
 

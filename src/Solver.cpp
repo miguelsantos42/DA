@@ -6,6 +6,9 @@
 #include "Solver.h"
 #include <cmath>
 #include <unordered_map>
+#include <unordered_set>
+#include <iostream>
+#include <queue>
 
 #define R 6371.0
 
@@ -129,5 +132,82 @@ void Solver::dfs(vector<Edge<string>*>& mst, Vertex<string>* vertex, unordered_m
         if(edge->getOrig()->getInfo() == vertex->getInfo() && !visited[edge->getDest()->getInfo()]){
             dfs(mst, edge->getDest(), visited, preorder);
         }
+    }
+}
+
+void Solver::realWorldTSP(Graph<string>* graph, string startVertex) {
+    vector<Vertex<string>*> path;
+
+
+    if (!isGraphConnected(graph)) {
+        cout << "Não existem caminhos que conectem todos os vértices!!!" << endl;
+        return;
+    }
+
+
+    Vertex<string>* start = graph->findVertex(startVertex);
+    start->setVisited(true);
+    path.push_back(start);
+    resolveTSP(graph, start, 0, path);
+
+
+    cout << "Best cost: " << bestCost << endl;
+    cout << "Best path: ";
+    for (auto i : bestPath){
+        cout << i->getInfo() << " ";
+    }
+    cout << endl;
+}
+
+bool Solver::isGraphConnected(Graph<string>* graph) {
+    if (graph->getNumVertex() == 0) return true;
+
+    unordered_set<Vertex<string>*> visited;
+    queue<Vertex<string>*> q;
+
+    Vertex<string>* start = graph->getVertexSet()[0];  // Pega um vértice qualquer
+    q.push(start);
+    visited.insert(start);
+
+    while (!q.empty()) {
+        Vertex<string>* v = q.front();
+        q.pop();
+        for (auto neighbor : v->getAdj()) {
+            Vertex<string>* dest = neighbor->getDest();
+            if (visited.find(dest) == visited.end()) {
+                visited.insert(dest);
+                q.push(dest);
+            }
+        }
+    }
+
+    return visited.size() == graph->getNumVertex();
+}
+
+
+void Solver::resolveTSP(Graph<string>* graph, Vertex<string>* current, double cost, vector<Vertex<string>*> &path) {
+    if (cost >= bestCost) {
+        return;
+    }
+
+    if (path.size() == graph->getNumVertex() && current->getInfo() == "0") {
+        bestCost = cost;
+        bestPath = path;
+        return;
+    }
+
+    for (auto neighbour: current->getAdj()) {
+        Vertex<string> *dest = neighbour->getDest();
+        if (dest->isVisited()) continue;
+
+        dest->setVisited(true);
+        cost += neighbour->getWeight();
+        path.push_back(dest);
+
+        resolveTSP(graph, dest, cost, path);
+
+        dest->setVisited(false);
+        cost -= neighbour->getWeight();
+        path.pop_back();
     }
 }

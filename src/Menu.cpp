@@ -91,6 +91,7 @@ void Menu::actionMenu() {
         cout << "1. Change Graph" << endl;
         cout << "2. Backtracking Algorithm" << endl;
         cout << "3. Triangular Approximation Heuristic" << endl;
+        cout << "4. Real Word" << endl;
         cout << "0. Exit" << endl;
         cin >> option;
 
@@ -111,6 +112,17 @@ void Menu::actionMenu() {
                 Solver().triangularApproximation(data.getGraph());
                 end1 = clock();
                 cout << "Time: " << (double)(end1 - start1) / CLOCKS_PER_SEC << "s" << endl;
+                break;
+            case 4:
+                string startVertex;
+                cout << "Enter the start vertex for the real-world TSP: ";
+                cin >> startVertex;
+
+                clock_t start2, end2;
+                start2 = clock();
+                Solver().realWorldTSP(data.getGraph(), startVertex);
+                end2 = clock();
+                cout << "Time: " << (double)(end2 - start2) / CLOCKS_PER_SEC << "s" << endl;
                 break;
             case 0:
                 cout << "Exiting..." << endl;
